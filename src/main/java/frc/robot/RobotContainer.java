@@ -12,7 +12,7 @@ import frc.robot.subsystems.*;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ControllerConstants.*;
 import frc.robot.commands.limelightcommands.*;
-import frc.robot.commands.drivetraincommands.*;
+import frc.robot.commands.DriveTraincommands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,6 +25,10 @@ public class RobotContainer {
 	private final FlywheelSubsystem m_flywheel = new FlywheelSubsystem();
 	private final LimelightSubsystem m_limelight = new LimelightSubsystem();
 	private final Joystick m_driverController = new Joystick(ControllerConstants.kDriverControllerPort);
+	private static final double kSetPointClosest = 1000;
+	private static final double kSetPointNear = 1200;
+	private static final double kSetPointMedium = 1400;
+	private static final double kSetPointFarthest = 1600;
 
 	public RobotContainer() {
 		configureButtonBindings();
@@ -40,10 +44,14 @@ public class RobotContainer {
 
 	private void configureButtonBindings() {
 		// Flywheel
-		new POVButton(m_driverController, DPad.kDown).whenPressed(() -> m_flywheel.setSetpoint(1000), m_flywheel);
-		new POVButton(m_driverController, DPad.kLeft).whenPressed(() -> m_flywheel.setSetpoint(1200), m_flywheel);
-		new POVButton(m_driverController, DPad.kUp).whenPressed(() -> m_flywheel.setSetpoint(1400), m_flywheel);
-		new POVButton(m_driverController, DPad.kRight).whenPressed(() -> m_flywheel.setSetpoint(1600), m_flywheel);
+		new POVButton(m_driverController, DPad.kDown).whenPressed(() -> m_flywheel.setSetpoint(kSetPointClosest),
+				m_flywheel);
+		new POVButton(m_driverController, DPad.kLeft).whenPressed(() -> m_flywheel.setSetpoint(kSetPointNear),
+				m_flywheel);
+		new POVButton(m_driverController, DPad.kUp).whenPressed(() -> m_flywheel.setSetpoint(kSetPointMedium),
+				m_flywheel);
+		new POVButton(m_driverController, DPad.kRight).whenPressed(() -> m_flywheel.setSetpoint(kSetPointFarthest),
+				m_flywheel);
 		new JoystickButton(m_driverController, Button.kLeftBumper)
 				.whenPressed(new LimelightFlywheelCommand(m_limelight, m_flywheel));
 		new JoystickButton(m_driverController, Button.kRightBumper).whileHeld(() -> m_flywheel.setSetpoint(0),

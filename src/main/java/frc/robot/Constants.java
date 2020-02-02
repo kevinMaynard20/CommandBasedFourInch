@@ -25,6 +25,8 @@ public final class Constants {
         public static final double kMaxOutput = 1;
         public static final double kMinOutput = -1;
         public static final double kMaxRPM = 5700;
+        
+        
     }
 
     public static final class LimelightConstants {
